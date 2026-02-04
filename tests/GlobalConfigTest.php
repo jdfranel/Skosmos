@@ -9,8 +9,6 @@ class GlobalConfigTest extends PHPUnit\Framework\TestCase
     /** @var GlobalConfig */
     private $config;
     /** @var GlobalConfig */
-    private $configFromEnv;
-    /** @var GlobalConfig */
     private $configWithDefaults;
     /** @var GlobalConfig */
     private $configWithBaseHref;
@@ -18,7 +16,6 @@ class GlobalConfigTest extends PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         $this->config = (new Model())->getConfig();
-        $this->configFromEnv = (new Model())->getConfig();
         $this->assertNotNull($this->config->getCache());
         $this->assertNotNull($this->config->getGraph());
         $this->configWithDefaults = (new Model('../../tests/testconfig-fordefaults.ttl'))->getConfig();
@@ -49,7 +46,7 @@ class GlobalConfigTest extends PHPUnit\Framework\TestCase
 
     public function testGetHttpTimeout()
     {
-        $this->assertEquals(8, $this->config->getHttpTimeout());
+        $this->assertEquals(20, $this->config->getHttpTimeout());
     }
 
     public function testGetServiceName()
