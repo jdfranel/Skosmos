@@ -253,8 +253,8 @@ class ConceptPropertyValueTest extends PHPUnit\Framework\TestCase
      */
     public function testRdfListUnordered()
     {
-        // Should have 12 individual values (not a list)
-        $values = $this->getAssertedConceptRdfListPropertyValues('http://www.skosmos.skos/test-rdf-list/languages-unordered', 12); // NOSONAR - RDF URI, not a web request
+        // Should have 17 individual values (not a list)
+        $values = $this->getAssertedConceptRdfListPropertyValues('http://www.skosmos.skos/test-rdf-list/languages-unordered', 17); // NOSONAR - RDF URI, not a web request
         
         // None of the values should be RDF lists
         foreach ($values as $value) {
@@ -268,8 +268,8 @@ class ConceptPropertyValueTest extends PHPUnit\Framework\TestCase
      */
     public function testRdfListMixed()
     {
-        // Should have 4 values: 3 individual items + 1 RDF list (containing 6 items)
-        $values = $this->getAssertedConceptRdfListPropertyValues('http://www.skosmos.skos/test-rdf-list/mixed', 4); // NOSONAR - RDF URI, not a web request
+        // Should have 5 values: 4 individual items + 1 RDF list (containing 6 items)
+        $values = $this->getAssertedConceptRdfListPropertyValues('http://www.skosmos.skos/test-rdf-list/mixed', 5); // NOSONAR - RDF URI, not a web request
         
         $listCount = 0;
         $regularCount = 0;
@@ -289,7 +289,7 @@ class ConceptPropertyValueTest extends PHPUnit\Framework\TestCase
         }
         
         $this->assertEquals(1, $listCount);
-        $this->assertEquals(3, $regularCount);
+        $this->assertEquals(4, $regularCount);
     }
 
     /**
@@ -309,18 +309,18 @@ class ConceptPropertyValueTest extends PHPUnit\Framework\TestCase
      */
     public function testRdfListTruncated()
     {
-        // Should have exactly one value (the RDF list, truncated at 10 items (config limit))
+        // Should have exactly one value (the RDF list, truncated at 16 items (config limit))
         $listValue = $this->getAssertedConceptRdfListPropertyFirstValue('http://www.skosmos.skos/test-rdf-list/languages-ordered', 1); // NOSONAR - RDF URI, not a web request
 
         $listItems = $listValue->getRdfListItems();
-        $this->assertCount(10, $listItems);
+        $this->assertCount(16, $listItems);
 
-        // Should be marked as truncated since original has 12 items
+        // Should be marked as truncated since original has 17 items
         $this->assertTrue($listValue->isRdfListTruncated());
         
         // Verify first and last items of truncated list
-        // Order: Python, Java, JavaScript, C#, Ruby, PHP, Go, Rust, TypeScript, Swift (truncated at 10)
+        // Order: Python, Java, JavaScript, C, C#, ADA, Ruby, PHP, C++, Go, Rust, Obsective-C, TypeScript, Swift, R, Kotlin (truncated at 16)
         $this->assertEquals('Python', $listItems[0]->getLabel()->getValue());
-        $this->assertEquals('Swift', $listItems[9]->getLabel()->getValue());
+        $this->assertEquals('Go', $listItems[9]->getLabel()->getValue());
     }
 }
