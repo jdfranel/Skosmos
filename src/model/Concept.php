@@ -751,35 +751,39 @@ class Concept extends VocabularyDataObject implements Modifiable
         $created = '';
         try {
             // finding the created properties
-            if ($this->resource->get('dc:created')) {
-                $created = $this->resource->get('dc:created')->getValue();
+            $createdResource = $this->resource->get('dc:created');
+            if ($createdResource && $createdResource instanceof \EasyRdf\Literal\Date) {
+                $created = $createdResource->getValue();
             }
 
             $modified = $this->getModifiedDate();
 
+            $dateTimeHelper = $this->model->getDateTimeHelper();
+
             // making a human readable string from the timestamps
             if ($created != '') {
-                $ret = $this->model->getText('skosmos:created') . ' ' . (Punic\Calendar::formatDate($created, 'short', $this->getLang()));
+                $ret = ucfirst($this->model->getText('skosmos:created') . ' ' . $dateTimeHelper->formatDateWithOptionalTime($created, 'short', $this->getLang()));
             }
 
             if ($modified != '') {
-                if ($created != '') {
-                    $ret .= ', ' . $this->model->getText('skosmos:modified') . ' ' . (Punic\Calendar::formatDate($modified, 'short', $this->getLang()));
-                } else {
-                    $ret .= ' ' . ucfirst($this->model->getText('skosmos:modified')) . ' ' . (Punic\Calendar::formatDate($modified, 'short', $this->getLang()));
+                if ($ret != '') {
+                    $ret .= "\n";
                 }
-
+                $ret .= ucfirst($this->model->getText('skosmos:modified') . ' ' . $dateTimeHelper->formatDateWithOptionalTime($modified, 'short', $this->getLang()));
             }
         } catch (Exception $e) {
             trigger_error($e->getMessage(), E_USER_WARNING);
             $ret = '';
-            if ($this->resource->get('dc:modified')) {
-                $modified = (string) $this->resource->get('dc:modified');
-                $ret = $this->model->getText('skosmos:modified') . ' ' . $modified;
-            }
             if ($this->resource->get('dc:created')) {
-                $created .= (string) $this->resource->get('dc:created');
-                $ret .= ' ' . $this->model->getText('skosmos:created') . ' ' . $created;
+                $created = (string) $this->resource->get('dc:created');
+                $ret .= ucfirst($this->model->getText('skosmos:created') . ' ' . $created);
+            }
+            if ($this->resource->get('dc:modified')) {
+                if ($ret != '') {
+                    $ret .= "\n";
+                }
+                $modified = (string) $this->resource->get('dc:modified');
+                $ret = ucfirst($this->model->getText('skosmos:modified') . ' ' . $modified);
             }
         }
         return $ret;
