@@ -203,6 +203,25 @@ describe('Vocab search bar', () => {
         cy.get('li').first().should('contain', 'Test class')
       })
     })
+    it('Autocomplete search result list concept types are translated', () => {
+      // go to test vocab
+      cy.visit('/groups/en/')
+
+      // Choose English from the language dropdown
+      cy.get('#language-selector .dropdown-toggle').click();
+      cy.get('#language-list .dropdown-item').contains('English').click();
+
+      // Enter a search term
+      cy.get('#search-wrapper input').type('Fish');
+
+      // Autocomplete should appear
+      cy.get('#search-autocomplete-results', { timeout: 20000 }).should('be.visible');
+
+      // Verify the dropdown should have the concept type literal
+      cy.get('#search-autocomplete-results').within(() => {
+	cy.get('li').first().find('div.col-auto.align-self-end.pr-1').should('have.text', 'Collection')
+      })
+    })
   });
 
   describe('Search Result Rendering', () => {

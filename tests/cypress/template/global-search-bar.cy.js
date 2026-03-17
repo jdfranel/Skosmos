@@ -132,6 +132,31 @@ describe('Global search bar', () => {
         cy.get('li').first().should('contain', 'Test class')
       })
     })
+    it('Autocomplete search result list concept types are translated', () => {
+      // go to landing page
+      cy.visit('/en/')
+
+      // open search bar
+      cy.get('#global-search-toggle').click()
+
+      // select a vocabulary
+      cy.contains('#vocab-list li label.vocab-select', 'conceptPropertyLabels').parents('li').find('input[type="checkbox"]').check({ force: true });
+
+      // Choose English from the language dropdown
+      cy.get('#language-selector .dropdown-toggle').click();
+      cy.get('#language-list .dropdown-item').contains('English').click();
+
+      // Enter a search term
+      cy.get('#search-field').type('Fish');
+
+      // Autocomplete should appear
+      cy.get('#search-autocomplete-results', { timeout: 20000 }).should('be.visible');
+
+      // Verify the dropdown should have the concept type literal
+      cy.get('#search-autocomplete-results').within(() => {
+	cy.get('li').first().find('div.col-auto.align-self-end.pr-1').should('have.text', 'Concept')
+      })
+    })
     it ('Autocomplete search result links point to concept pages', () => {
       // go to test vocab
       cy.visit('/en/')
