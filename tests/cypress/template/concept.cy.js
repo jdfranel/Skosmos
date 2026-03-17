@@ -171,7 +171,7 @@ describe('Concept page', () => {
     cy.visit('/groups/en/page/fish') // go to "Fish" ConceptGroup page
 
     // check the property name
-    cy.get('.prop-rdf_type .property-label').invoke('text').should('equal', 'Type')
+    cy.get('.prop-rdf_type .property-label h2').invoke('text').should('equal', 'Type')
 
     // check the concept type
     cy.get('.prop-rdf_type .property-value li').invoke('text').should('contain', 'Collection')
@@ -181,7 +181,7 @@ describe('Concept page', () => {
     cy.visit('/yso/en/page/p21685') // go to "music research" concept page
 
     // check the property name
-    cy.get('.prop-rdf_type .property-label').invoke('text').should('equal', 'Type')
+    cy.get('.prop-rdf_type .property-label h2').invoke('text').should('equal', 'Type')
 
     // check the concept type
     cy.get('.prop-rdf_type .property-value li').invoke('text').should('equal', 'General concept')
@@ -190,7 +190,7 @@ describe('Concept page', () => {
     cy.visit('/yso/en/page/p21685?clang=fi') // go to "music research" concept page (Finnish content language)
 
     // check the property name
-    cy.get('.prop-skos_definition .property-label').invoke('text').should('equal', 'Definition')
+    cy.get('.prop-skos_definition .property-label h2').invoke('text').should('equal', 'Definition')
 
     // check the definition text
     cy.get('.prop-skos_definition .property-value li').invoke('text').should('contain', 'Musiikin ja musiikin harjoittamisen systemaattinen tutkiminen niiden kaikissa ilmenemismuodoissa.')
@@ -214,7 +214,7 @@ describe('Concept page', () => {
     cy.visit('/yso/en/page/p21685') // go to "music research" concept page
 
     // check the property name
-    cy.get('.prop-skos_broader .property-label').invoke('text').should('equal', 'Broader concept')
+    cy.get('.prop-skos_broader .property-label h2').invoke('text').should('equal', 'Broader concept')
 
     // check the broader concept
     cy.get('.prop-skos_broader .property-value a').invoke('text').should('equal', 'research')
@@ -223,7 +223,7 @@ describe('Concept page', () => {
     cy.visit('/yso/en/page/p21685') // go to "music research" concept page
 
     // check the property name
-    cy.get('.prop-skos_narrower .property-label').invoke('text').should('equal', 'Narrower concepts')
+    cy.get('.prop-skos_narrower .property-label h2').invoke('text').should('equal', 'Narrower concepts')
 
     // check that we have the correct number of narrower concepts
     cy.get('.prop-skos_narrower .property-value').find('li').should('have.length', 8)
@@ -254,7 +254,7 @@ describe('Concept page', () => {
     cy.visit('/yso/en/page/p21685') // go to "music research" concept page
 
     // check the property name
-    cy.get('.prop-skos_related .property-label').invoke('text').should('equal', 'Related concepts')
+    cy.get('.prop-skos_related .property-label h2').invoke('text').should('equal', 'Related concepts')
 
     // check that we have the correct number of related concepts
     cy.get('.prop-skos_related .property-value').find('li').should('have.length', 3)
@@ -263,7 +263,7 @@ describe('Concept page', () => {
     cy.visit('/yso/en/page/p21685') // go to "music research" concept page
 
     // check the property name
-    cy.get('.prop-skos_altLabel .property-label').invoke('text').should('equal', 'Entry terms')
+    cy.get('.prop-skos_altLabel .property-label h2').invoke('text').should('equal', 'Entry terms')
 
     // check that we have the correct number of altLabels
     cy.get('.prop-skos_altLabel .property-value').find('li').should('have.length', 1)
@@ -293,7 +293,7 @@ describe('Concept page', () => {
     cy.visit('/yso/fi/page/p39138') // go to "ukonvaajat" concept page (in Finnish)
 
     // check the property name
-    cy.get('.prop-skos_scopeNote .property-label').invoke('text').should('equal', 'Käyttöhuomautus')
+    cy.get('.prop-skos_scopeNote .property-label h2').invoke('text').should('equal', 'Käyttöhuomautus')
 
     // check that we have the correct number of scopeNotes
     cy.get('.prop-skos_scopeNote .property-value').find('li').should('have.length', 1)
@@ -308,7 +308,7 @@ describe('Concept page', () => {
     cy.visit('/yso/en/page/p38289') // go to "music archaeology" concept page
 
     // check the property name
-    cy.get('.prop-skosmos_memberOf .property-label').invoke('text').should('equal', 'Belongs to group')
+    cy.get('.prop-skosmos_memberOf .property-label h2').invoke('text').should('equal', 'Belongs to group')
 
     // check that we have the correct number of groups
     cy.get('.prop-skosmos_memberOf .property-value').find('li').should('have.length', 1)
@@ -327,7 +327,7 @@ describe('Concept page', () => {
     cy.visit('/yso/en/page/p21685') // go to "music research" concept page
 
     // check the property name
-    cy.get('.prop-foreignlabels .property-label').invoke('text').should('equal', 'In other languages')
+    cy.get('.prop-foreignlabels .property-label h2').invoke('text').should('equal', 'In other languages')
 
     // check that we have the correct number of languages
     cy.get('#concept-other-languages').find('.row').should('have.length', 3)
