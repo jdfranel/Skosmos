@@ -103,12 +103,17 @@
 
           {%- set attrs = {'class': classes|join(' ')} -%}
           {%- if tooltip is not empty -%}
-            {%- set attrs = attrs|merge({'data-title': tooltip}) -%}
+            {%- set attrs = attrs|merge({'data-title': tooltip, 'aria-describedby': 'prop-desc-' ~ property.ID}) -%}
           {%- endif -%}
 
-          <div class="col-lg-4 ps-0 property-label"><h2{{ _self.render_attrs(attrs) }}>
-            {{- label[:1]|upper ~ label[1:] -}} {#- Capitalizing labels -#}
-          </h2></div>
+          <div class="col-lg-4 ps-0 property-label">
+            <h2{{ _self.render_attrs(attrs) }}>
+              {{- label[:1]|upper ~ label[1:] -}} {#- Capitalizing labels -#}
+            </h2>
+            {% if tooltip is not empty %}
+            <span id="prop-desc-{{property.ID}}" class="visually-hidden">{{ tooltip }}</span>
+            {% endif %}
+          </div>
           <div class="col-lg-8 gx-0 gx-lg-4 align-self-center property-value">
             <ul class="align-bottom">
             {% for propval in property.values %}
@@ -162,7 +167,10 @@
         {% set foreignLabels = concept.foreignLabels %}
         {% if foreignLabels %}
         <div class="row property prop-foreignlabels">
-          <div class="col-lg-4 ps-0 property-label"><h2 class="tooltip-inline t-top" data-title="{{ 'foreign prefLabel help'|trans }}">{{ 'foreign prefLabels'|trans }}</h2></div>
+          <div class="col-lg-4 ps-0 property-label">
+            <h2 class="tooltip-inline t-top" aria-describedby="prop-desc-foreignlabels" data-title="{{ 'foreign prefLabel help'|trans }}">{{ 'foreign prefLabels'|trans }}</h2>
+            <span id="prop-desc-foreignlabels" class="visually-hidden">{{ 'foreign prefLabel help'|trans }}</span>
+          </div>
           <div class="col-lg-8 gx-0 gx-lg-4" id="concept-other-languages">
             {% for language,labels in foreignLabels %}
             <div class="row mb-2">
