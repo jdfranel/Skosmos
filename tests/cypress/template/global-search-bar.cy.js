@@ -191,7 +191,7 @@ describe('Global search bar', () => {
 
       it('Escape closes the vocabulary dropdown', () => {
         getVocabButton().focus();
-        press('downarrow'); // avaa
+        press('downarrow');
         cy.get('#vocab-selector .dropdown-menu').should('have.class', 'show');
 
         cy.focused().type('{esc}');
