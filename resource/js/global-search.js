@@ -249,9 +249,6 @@ function startGlobalSearchApp () {
         this.renderedResultsList = []
         this.hideAutoComplete()
       },
-      toggleLanguageDropdown () {
-        this.showDropdown = !this.showDropdown
-      },
       onLangMenuKeydown (e) {
         const items = Array.from(document.querySelectorAll('#language-list input'))
         if (!items.length) return
@@ -350,31 +347,6 @@ function startGlobalSearchApp () {
           }
         }
       },
-      moveSelection (targetList, delta) {
-        if (!targetList) return
-        const items = targetList.querySelectorAll('li')
-        const current = document.activeElement.parentElement.parentElement
-
-        if (!items.length) return
-
-        switch (delta) {
-          case 1:
-            if (current.nextElementSibling) {
-              current.nextSibling.focus()
-            }
-            break
-          case -1:
-            if (current === targetList.firstElementChild) {
-              const btn = targetList.parentNode.parentNode.querySelector('.dropdown-toggle')
-              const dropdown = bootstrap.Dropdown.getInstance(btn)
-              btn.focus()
-              dropdown.hide()
-              break
-            }
-            current.previousElementSibling.focus()
-            break
-        }
-      },
       /*
       * Show the existing autocomplete list if it was hidden by onClickOutside()
       */
@@ -428,7 +400,6 @@ function startGlobalSearchApp () {
             data-bs-toggle="dropdown"
             aria-expanded="false"
             :aria-label="selectSearchLanguageAriaMessage"
-            @click="toggleLanguageDropdown"
             v-key-nav="dropdownKeyNav"
             v-if="languageStrings">
               <span v-if="selectedLanguage && languageStrings[selectedLanguage]">

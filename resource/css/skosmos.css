@@ -26,6 +26,22 @@
   --headerbar-bg-2: var(--white-color);
   --headerbar-text: var(--dark-color);
 
+  --search-autocomplete-result-link: var(--medium-color);
+  --search-bg: var(--white-color);
+  --search-border: var(--light-color);
+  --search-keyboard-nav-border: var(--dark-color);
+  --search-button-bg: var(--dark-color);
+  --search-button-text: var(--white-color);
+  --search-dropdown-bg: var(--secondary-light-color);
+  --search-dropdown-selected-bg: var(--dark-color);
+  --search-dropdown-selected-text: var(--white-color);
+  --search-field-bg: var(--white-color);
+  --search-hover-bg: var(--light-color);
+  --global-search-vocab-selector-check: var(--white-color);
+  --global-search-vocab-selector-selected-bg: var(--dark-color);
+  --vocab-search-language-selector-hover-bg: var(--dark-color);
+  --vocab-search-language-selector-hover-text: var(--white-color);
+
   --main-bg-1: var(--white-color); /*landing*/
   --main-bg-2: var(--light-color); /*vocab, concept, search, error*/
   --main-bg-3: var(--secondary-light-color); /*about, feedback*/
@@ -69,33 +85,6 @@
 
   --footer-bg: var(--white-color);
   --footer-text: var(--dark-color);
-
-  --search-autocomplete-result-link: var(--medium-color);
-  --search-bg: var(--white-color);
-  --search-border: var(--light-color);
-  --search-keyboard-nav-border: var(--dark-color);
-  --search-button-bg: var(--dark-color);
-  --search-button-text: var(--white-color);
-  --search-dropdown-bg: var(--secondary-light-color);
-  --search-dropdown-selected-bg: var(--dark-color);
-  --search-dropdown-selected-text: var(--white-color);
-  --search-dropdown-toggle-hover-bg: var(--medium-color);
-  --search-field-bg: var(--white-color);
-  --search-hover-bg: var(--light-color);
-  --global-search-vocab-selector-check: var(--white-color);
-  --global-search-vocab-selector-selected-bg: var(--dark-color);
-  --vocab-search-language-selector-hover-bg: var(--dark-color);
-  --vocab-search-language-selector-hover-text: var(--white-color);
-
-  --vocab-bg: var(--white-color);
-  --vocab-text: var(--dark-color);
-  --vocab-table-border: var(--medium-color);
-  --vocab-link: var(--secondary-dark-color);
-  --vocab-category-text: var(--dark-color);
-  --vocab-category-bg: var(--medium-color);
-  --tooltip-fg-color: var(--light-color);
-  --tooltip-bg-color: var(--dark-color);
-  --tooltip-border-color: var(--secondary-medium-color);
 
   /* Font definitions */
   --font-size: 1em; /* same as the browser default font size, often 16px */
@@ -326,24 +315,8 @@ header .container-fluid .row {
 /* Language selector  */
 
 #language-list li:hover a, #language-list li:active a {
-  color: var(--vocab-search-language-dropdown-hover-text);
-  background-color: var(--vocab-search-language-dropdown-hover-bg);
-}
-
-#language-list li:hover label, #language-list li:active label {
-  background-color: var(--search-hover-bg);
-}
-
-#language-list li:has(input:checked) label {
-  background-color: var(--search-dropdown-selected-bg);
-  color: var(--search-dropdown-selected-text);
-  font-weight: bold;
-}
-
-#language-list li input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
+  color: var(--vocab-search-language-selector-hover-text);
+  background-color: var(--vocab-search-language-selector-hover-bg);
 }
 
 /* Search field */
