@@ -293,7 +293,6 @@ function startGlobalSearchApp () {
           case 'Enter':
             e.preventDefault()
             items[currentIndex].click()
-            console.log(items[currentIndex]) //DEBUG
             break
           case 'Home':
             e.preventDefault()
