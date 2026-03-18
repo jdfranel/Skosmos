@@ -159,4 +159,105 @@ describe('Global search bar', () => {
      cy.url().should('include', 'uri=http%3A%2F%2Fwww.skosmos.skos%2Ftest%2Fta0116');
 
     })
+    describe('Keyboard navigation', () => {
+      beforeEach(() => {
+         cy.visit('/fi/');
+         cy.get('#global-search-toggle').click();
+         cy.get('#search-wrapper').should('exist');
+      });
+
+      const getVocabButton = () => cy.get('#vocab-selector .dropdown-toggle').first();
+      const getLangButton = () => cy.get('#language-selector .dropdown-toggle').first();
+      const getSearchField = () => cy.get('#search-field');
+
+      const press = (key) => cy.focused().type(`{${key}}`);
+
+      it('Left/Right: navigate between vocab selector and language selector', () => {
+        getVocabButton().focus().should('be.focused');
+
+        press('rightarrow');
+        getLangButton().should('be.focused');
+
+        press('leftarrow');
+        getVocabButton().should('be.focused');
+      });
+
+      it('Arrow down opens the vocabulary dropdown when vocab selector is focused', () => {
+        getVocabButton().focus().should('be.focused');
+        press('downarrow');
+
+        cy.get('#vocab-selector .dropdown-menu').should('have.class', 'show');
+      });
+
+      it('Escape closes the vocabulary dropdown', () => {
+        getVocabButton().focus();
+        press('downarrow'); // avaa
+        cy.get('#vocab-selector .dropdown-menu').should('have.class', 'show');
+
+        cy.focused().type('{esc}');
+        cy.get('#vocab-selector .dropdown-menu').should('not.have.class', 'show');
+
+      });
+
+      it('Arrow up on top item closes the vocabulary dropdown', () => {
+        getVocabButton().focus();
+        press('downarrow');
+        cy.get('#vocab-selector .dropdown-menu').should('have.class', 'show');
+
+        cy.focused().type('{uparrow}');
+        cy.get('#vocab-selector .dropdown-menu').should('not.have.class', 'show');
+      });
+
+      it('Arrow up / drrow down navigates within vocabulary list', () => {
+        getVocabButton().focus();
+        press('downarrow');
+        cy.get('#vocab-selector .dropdown-menu').should('have.class', 'show');
+
+        cy.get('#vocab-list li').first().as('firstItem').get('input').should('be.focused');
+
+        cy.focused().type('{downarrow}');
+        cy.get('#vocab-list li').eq(1).get('input').should('be.focused');
+
+        cy.focused().type('{downarrow}');
+        cy.get('#vocab-list li').eq(2).get('input').should('be.focused');
+
+        cy.focused().type('{uparrow}');
+        cy.get('#vocab-list li').eq(1).get('input').should('be.focused');
+      });
+
+      it('Enter toggles a vocabulary in the dropdown', () => {
+        getVocabButton().focus();
+        press('downarrow');
+        cy.get('#vocab-selector .dropdown-menu').should('have.class', 'show');
+
+        cy.get('#vocab-list li').eq(1).focus().should('be.focused');
+        cy.focused().type('{enter}');
+
+        cy.get('#vocab-list li').eq(1).get('input').should('be.checked');
+      });
+
+      it('Arrow down opens the language dropdown when language selector is focused', () => {
+        getLangButton().focus().should('be.focused');
+        cy.focused().type('{downarrow}');
+        cy.get('#language-selector .dropdown-menu').should('have.class', 'show');
+      });
+
+      it('Escape closes the language dropdown', () => {
+        getLangButton().click();
+        cy.get('#language-selector .dropdown-menu').should('have.class', 'show');
+
+        cy.focused().type('{esc}');
+        cy.get('#language-selector .dropdown-menu').should('not.have.class', 'show');
+      });
+
+      it('Enter selects a language in the language dropdown', () => {
+        getLangButton().click();
+        cy.get('#language-selector .dropdown-menu').should('have.class', 'show');
+
+        cy.get('#language-list li').eq(1).focus().should('be.focused');
+        cy.focused().type('{enter}');
+
+        cy.get('#language-list li').eq(1).get('input').should('be.checked');
+      });
+    })
 })

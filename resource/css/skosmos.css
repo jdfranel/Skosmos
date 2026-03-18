@@ -82,6 +82,28 @@
   --footer-bg: var(--white-color);
   --footer-text: var(--dark-color);
 
+  --search-bg: var(--white-color);
+  --search-dropdown-bg: var(--light-color);
+  --search-border: var(--medium-color);
+  --search-button-bg: var(--dark-color);
+  --search-button-text: var(--white-color);
+  --search-dropdown-toggle-hover-bg: var(--medium-color);
+  --search-vocab-selector-selected-bg: var(--dark-color);
+  --search-vocab-selector-check: var(--white-color);
+  --search-dropdown-selected-bg: var(--dark-color);
+  --search-dropdown-selected-text: var(--white-color);
+  --vocab-search-language-selector-hover-text: var(--white-color);
+  --vocab-search-language-selector-hover-bg: var(--dark-color);
+  --vocab-bg: var(--white-color);
+  --vocab-text: var(--dark-color);
+  --vocab-table-border: var(--medium-color);
+  --vocab-link: var(--secondary-dark-color);
+  --vocab-category-text: var(--dark-color);
+  --vocab-category-bg: var(--medium-color);
+  --tooltip-fg-color: var(--light-color);
+  --tooltip-bg-color: var(--dark-color);
+  --tooltip-border-color: var(--secondary-medium-color);
+
   /* Font definitions */
   --font-size: 1em; /* same as the browser default font size, often 16px */
   --font-family: 'Public Sans', sans-serif;
@@ -320,9 +342,20 @@ header .container-fluid .row {
 }
 
 #language-list li:has(input:checked) label {
+<<<<<<< HEAD
   background-color: var(--search-button-bg);
   color: var(--search-button-text);
+=======
+  background-color: var(--search-dropdown-selected-bg);
+  color: var(--search-dropdown-selected-text);
+>>>>>>> 88122c99 (Keyboard navigation more or less implemented)
   font-weight: bold;
+}
+
+#language-list li input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Search field */
@@ -407,12 +440,6 @@ header .container-fluid .row {
 
 /* Vocabulary selector */
 
-#search-wrapper #vocab-list {
-  padding-top: 0.25rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
-
 #search-wrapper .vocab-dropdown-btn {
   width: 15rem;
   position: relative;
@@ -436,12 +463,34 @@ header .container-fluid .row {
   user-select: none;
 }
 
+#vocab-list {
+  padding-top: 0.25rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+#vocab-list li:hover a, #vocab-list li:active a {
+  color: var(--vocab-search-language-selector-hover-text);
+  background-color: var(--vocab-search-language-selector-hover-bg);
+}
+
+#vocab-list li:hover label, #vocab-list li:active label {
+  background-color: var(--search-dropdown-toggle-hover-bg);
+}
+
+#vocab-list li:has(input:checked) label {
+  background-color: var(--search-dropdown-selected-bg);
+  color: var(--search-dropdown-selected-text);
+  font-weight: bold;
+}
+
 /* Custom checkbox */
 
 #search-wrapper .vocab-select input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
+<<<<<<< HEAD
   height: 0;
   width: 0;
 }
@@ -481,6 +530,24 @@ header .container-fluid .row {
 
 #search-wrapper .vocab-select input:checked ~ .checkmark::after {
   display: block;
+=======
+  height: 1.5rem;
+  width: 1.5rem;
+  top: 0;
+  left: 0;
+}
+
+/* Show a visible focus ring when the (visually hidden) checkbox is focused */
+#search-wrapper #vocab-list .vocab-select:focus-within {
+  outline: 2px solid var(--dark-color);
+  outline-offset: 2px;
+}
+
+#search-wrapper #language-list .dropdown-item:focus-within {
+  outline: 2px solid var(--dark-color);
+   outline-offset: -3px;
+
+>>>>>>> 88122c99 (Keyboard navigation more or less implemented)
 }
 
 /* Search field */

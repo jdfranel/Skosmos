@@ -252,27 +252,86 @@ function startGlobalSearchApp () {
       toggleLanguageDropdown () {
         this.showDropdown = !this.showDropdown
       },
-      dropdownKeyNav (event, dropdownEl, activeEl) {
-        const vocabSelector = document.querySelector('#vocab-selector')
-        const btn = document.querySelector('#vocab-selector .dropdown-toggle')
-        const menu = document.querySelector('#vocab-selector .dropdown-menu')
-        const dropdown = bootstrap.Dropdown.getInstance(btn)
+      onLangMenuKeydown (e) {
+        const items = Array.from(document.querySelectorAll('#language-list input'))
+        if (!items.length) return
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+          e.stopPropagation() // estää dropdownKeyNav:in
+          return // EI preventDefault → ei rikota muuta käytöstä
+        }
+        this.onListMenuKeydown(e, items)
+      },
+      onVocabMenuKeydown (e) {
+        const items = Array.from(document.querySelectorAll('#vocab-list input'))
+        if (!items.length) return
+        this.onListMenuKeydown(e, items)
+      },
+      onListMenuKeydown (e, items) {
+        if (!items.length) return
+
+        let currentIndex = items.indexOf(document.activeElement)
+
+        if (currentIndex === -1) {
+          currentIndex = 0
+          items[currentIndex].focus()
+        }
+
+        const focusAt = (newIndex) => {
+          const i = (newIndex + items.length) % items.length
+          items[i].focus()
+        }
+
+        switch (e.key) {
+          case 'ArrowDown':
+            e.preventDefault()
+            e.stopPropagation()
+            focusAt(currentIndex < 0 ? 0 : currentIndex + 1)
+            break
+          case 'ArrowUp':
+            e.preventDefault()
+            if (currentIndex === 0) {
+              const btn = e.delegateTarget.parentElement.querySelector('.dropdown-toggle')
+              const dropdownBtn = bootstrap.Dropdown.getInstance(btn)
+              dropdownBtn.toggle()
+              btn.focus()
+            }
+            focusAt(currentIndex < 0 ? items.length - 1 : currentIndex - 1)
+            break
+          case 'Enter':
+            e.preventDefault()
+            items[currentIndex].click()
+            break
+          case 'Home':
+            e.preventDefault()
+            focusAt(0)
+            break
+          case 'End':
+            e.preventDefault()
+            focusAt(items.length - 1)
+            break
+          case 'Escape': {
+            e.preventDefault()
+            const btn = e.delegateTarget.parentElement.querySelector('.dropdown-toggle')
+            const dropdownBtn = bootstrap.Dropdown.getInstance(btn)
+            dropdownBtn.toggle()
+            btn.focus()
+            break
+          }
+        }
+      },
+      dropdownKeyNav (event, dropdownBtn) {
+        const dropDownList = dropdownBtn.parentNode
+        const dropdown = bootstrap.Dropdown.getInstance(dropdownBtn)
+
         switch (event.key) {
           case 'ArrowUp': {
             event.preventDefault()
-            if (menu.classList.contains('show')) { dropdown.hide() }
+            if (dropDownList.classList.contains('show')) { dropdown.hide() }
             break
           }
-          case 'ArrowDown': {
-            event.preventDefault()
-            dropdown.show()
-            const list = document.querySelector('#vocab-list')
-            const first = list.firstElementChild
-            if (first) first.focus()
-            break
-          }
+
           case 'ArrowLeft': {
-            const previousEl = vocabSelector.previousSibling
+            const previousEl = dropDownList.previousSibling
             if (previousEl) {
               const button = previousEl.querySelector('button')
               if (button) button.focus()
@@ -280,7 +339,7 @@ function startGlobalSearchApp () {
             break
           }
           case 'ArrowRight': {
-            const nextEl = vocabSelector.nextSibling
+            const nextEl = dropDownList.nextSibling
             if (nextEl) {
               const button = nextEl.querySelector('button')
               if (button) button.focus()
@@ -294,38 +353,22 @@ function startGlobalSearchApp () {
           }
         }
       },
-      listKeyNav (event, list, activeEl) {
-        const items = list.querySelectorAll('li')
-        if (!items.length) return
-        switch (event.key) {
-          case 'ArrowUp':
-            event.preventDefault()
-            this.moveSelection(list, -1)
-            break
-          case 'ArrowDown':
-            event.preventDefault()
-            this.moveSelection(list, 1)
-            break
-          case 'Enter':
-            event.preventDefault()
-            document.activeElement.querySelector('input').click()
-            break
-        }
-      },
       moveSelection (targetList, delta) {
         if (!targetList) return
         const items = targetList.querySelectorAll('li')
-        const current = document.activeElement
+        const current = document.activeElement.parentElement.parentElement
 
         if (!items.length) return
 
         switch (delta) {
           case 1:
-            current.nextElementSibling.focus()
+            if (current.nextElementSibling) {
+              current.nextSibling.focus()
+            }
             break
           case -1:
             if (current === targetList.firstElementChild) {
-              const btn = document.querySelector('#vocab-selector .dropdown-toggle')
+              const btn = targetList.parentNode.parentNode.querySelector('.dropdown-toggle')
               const dropdown = bootstrap.Dropdown.getInstance(btn)
               btn.focus()
               dropdown.hide()
@@ -346,7 +389,8 @@ function startGlobalSearchApp () {
     template: `
       <div id="search-wrapper" class="input-group ps-xl-2 flex-nowrap">
         <div class="dropdown" id="vocab-selector">
-          <button class="btn btn-outline-secondary dropdown-toggle vocab-dropdown-btn"
+          <button
+            class="btn btn-outline-secondary dropdown-toggle vocab-dropdown-btn"
             role="button"
             data-bs-toggle="dropdown"
             data-bs-auto-close="outside"
@@ -361,13 +405,12 @@ function startGlobalSearchApp () {
           </button>
           <ul
             class="dropdown-menu"
+            @keydown="onVocabMenuKeydown"
             id="vocab-list"
-            role="menu"
-            ref="vocabList"
-            v-key-nav="listKeyNav"
-          >
-            <li v-for="(value, key) in vocabStrings" :key="key" tabindex=0>
-              <label class="vocab-select">
+            role="menu">
+            <li v-for="(value, key) in vocabStrings" :key="key"
+            role="none" tabindex=-1>
+              <label class="dropdown-item vocab-select">
                 <input
                   type="checkbox"
                   :value="key"
@@ -382,12 +425,14 @@ function startGlobalSearchApp () {
         </div>
 
         <div class="dropdown" id="language-selector">
-          <button class="btn btn-outline-secondary dropdown-toggle"
+          <button
+            class="btn btn-outline-secondary dropdown-toggle"
             role="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
             :aria-label="selectSearchLanguageAriaMessage"
             @click="toggleLanguageDropdown"
+            v-key-nav="dropdownKeyNav"
             v-if="languageStrings">
               <span v-if="selectedLanguage && languageStrings[selectedLanguage]">
                 {{ languageStrings[selectedLanguage] }}
@@ -395,13 +440,20 @@ function startGlobalSearchApp () {
               <span v-else>{{ langSelectorPlaceholder }}</span>
             <i class="chevron fa-solid fa-chevron-down"></i>
           </button>
-          <ul class="dropdown-menu" id="language-list" role="menu">
-            <li v-for="(value, key) in languageStrings" :key="key" role="none" tabindex=0>
+          <ul
+            class="dropdown-menu"
+            id="language-list"
+            @keydown="onLangMenuKeydown"
+            role="menu">
+            <li v-for="(value, key) in languageStrings" :key="key" role="none" tabindex=-1>
               <label class="dropdown-item">
                 <input
                   type="radio"
-                  class="d-none"
                   :value="key"
+                  tabindex=-1
+                  @keydown.left.prevent
+                  @keydown.right.prevent
+                  @click.stop
                   v-model="selectedLanguage">
                 {{ value }}
               </label>
@@ -545,17 +597,23 @@ function startGlobalSearchApp () {
 
         if (!el.contains(document.activeElement)) return
 
+        const isInsideLangList = document.activeElement.closest('#language-list')
+
+        if (isInsideLangList && (key === 'ArrowLeft' || key === 'ArrowRight')) {
+          return // anna eventin kuolla luonnollisesti
+        }
+
         event.preventDefault()
 
         if (typeof binding.value === 'function') {
-          binding.value(event, el, document.activeElement)
+          binding.value(event, el)
         }
       }
       el.__keynavHandler__ = handler
-      el.addEventListener('keyup', handler)
+      el.addEventListener('keydown', handler)
     },
     unmounted: el => {
-      el.removeEventListener('keyup', el.__keynavHandler__)
+      el.removeEventListener('keydown', el.__keynavHandler__)
       delete el.__keynavHandler__
     }
   })
