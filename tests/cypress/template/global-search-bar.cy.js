@@ -180,7 +180,6 @@ describe('Global search bar', () => {
 
       const getVocabButton = () => cy.get('#vocab-selector .dropdown-toggle').first();
       const getLangButton = () => cy.get('#language-selector .dropdown-toggle').first();
-      const getSearchField = () => cy.get('#search-field');
 
       const press = (key) => cy.focused().type(`{${key}}`);
 
