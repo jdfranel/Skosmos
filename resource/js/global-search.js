@@ -249,17 +249,8 @@ function startGlobalSearchApp () {
         this.renderedResultsList = []
         this.hideAutoComplete()
       },
-      onLangMenuKeydown (e) {
-        const items = Array.from(document.querySelectorAll('#language-list input'))
-        if (!items.length) return
-        this.onListMenuKeydown(e, items)
-      },
       onVocabMenuKeydown (e) {
-        const items = Array.from(document.querySelectorAll('#vocab-list input'))
-        if (!items.length) return
-        this.onListMenuKeydown(e, items)
-      },
-      onListMenuKeydown (e, items) {
+        const items = Array.from(e.currentTarget.querySelectorAll('input'))
         if (!items.length) return
 
         let currentIndex = items.indexOf(document.activeElement)
@@ -283,17 +274,20 @@ function startGlobalSearchApp () {
           case 'ArrowUp':
             e.preventDefault()
             if (currentIndex === 0) {
-              const btn = e.delegateTarget.parentElement.querySelector('.dropdown-toggle')
-              const dropdownBtn = bootstrap.Dropdown.getInstance(btn)
-              dropdownBtn.toggle()
+              const dropdownWrapper = e.currentTarget.closest('.dropdown')
+              const btn = dropdownWrapper.querySelector('.dropdown-toggle')
+              const dropdownBtn = bootstrap.Dropdown.getOrCreateInstance(btn)
+              dropdownBtn.hide()
               btn.focus()
+              return
             }
-            focusAt(currentIndex < 0 ? items.length - 1 : currentIndex - 1)
+            focusAt(currentIndex - 1)
             break
           case 'Enter':
             e.preventDefault()
             items[currentIndex].click()
             break
+
           case 'Home':
             e.preventDefault()
             focusAt(0)
@@ -318,7 +312,6 @@ function startGlobalSearchApp () {
 
         switch (event.key) {
           case 'ArrowUp': {
-            event.preventDefault()
             if (dropDownList.classList.contains('show')) { dropdown.hide() }
             break
           }
@@ -340,8 +333,7 @@ function startGlobalSearchApp () {
             break
           }
           case 'Enter': {
-            event.preventDefault()
-            dropdown.toggle()
+            dropdownBtn.click()
             break
           }
         }
@@ -410,9 +402,11 @@ function startGlobalSearchApp () {
           <ul
             class="dropdown-menu"
             id="language-list"
-            @keydown="onLangMenuKeydown"
             role="menu">
-            <li v-for="(value, key) in languageStrings" :key="key" role="none">
+            <li
+              v-for="(value, key, index) in languageStrings"
+              :key="key"
+              role="none">
               <a
                 class="dropdown-item"
                 :value="key"
