@@ -342,13 +342,8 @@ header .container-fluid .row {
 }
 
 #language-list li:has(input:checked) label {
-<<<<<<< HEAD
-  background-color: var(--search-button-bg);
-  color: var(--search-button-text);
-=======
   background-color: var(--search-dropdown-selected-bg);
   color: var(--search-dropdown-selected-text);
->>>>>>> 88122c99 (Keyboard navigation more or less implemented)
   font-weight: bold;
 }
 
@@ -469,19 +464,8 @@ header .container-fluid .row {
   padding-right: 0.5rem;
 }
 
-#vocab-list li:hover a, #vocab-list li:active a {
-  color: var(--vocab-search-language-selector-hover-text);
-  background-color: var(--vocab-search-language-selector-hover-bg);
-}
-
 #vocab-list li:hover label, #vocab-list li:active label {
   background-color: var(--search-dropdown-toggle-hover-bg);
-}
-
-#vocab-list li:has(input:checked) label {
-  background-color: var(--search-dropdown-selected-bg);
-  color: var(--search-dropdown-selected-text);
-  font-weight: bold;
 }
 
 /* Custom checkbox */
@@ -490,7 +474,6 @@ header .container-fluid .row {
   position: absolute;
   opacity: 0;
   cursor: pointer;
-<<<<<<< HEAD
   height: 0;
   width: 0;
 }
@@ -498,7 +481,6 @@ header .container-fluid .row {
 #search-wrapper .checkmark {
   position: absolute;
   border: 1px solid var(--global-search-vocab-selector-selected-bg);
-  top: 0;
   left: 0;
   height: 1.5rem;
   width: 1.5rem;
@@ -530,11 +512,6 @@ header .container-fluid .row {
 
 #search-wrapper .vocab-select input:checked ~ .checkmark::after {
   display: block;
-=======
-  height: 1.5rem;
-  width: 1.5rem;
-  top: 0;
-  left: 0;
 }
 
 /* Show a visible focus ring when the (visually hidden) checkbox is focused */
@@ -546,8 +523,6 @@ header .container-fluid .row {
 #search-wrapper #language-list .dropdown-item:focus-within {
   outline: 2px solid var(--dark-color);
    outline-offset: -3px;
-
->>>>>>> 88122c99 (Keyboard navigation more or less implemented)
 }
 
 /* Search field */
