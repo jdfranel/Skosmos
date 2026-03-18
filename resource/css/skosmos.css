@@ -1174,6 +1174,10 @@ h1#vocab-heading {
   margin-bottom: 0;
 }
 
+.prop-foreignlabels .preflabel {
+  font-weight: bold;
+}
+
 #download-links li {
   display: inline-block;
 }
