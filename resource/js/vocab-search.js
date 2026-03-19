@@ -9,6 +9,7 @@ function startVocabSearchApp () {
         searchCounter: null,
         renderedResultsList: [],
         languageStrings: null,
+        uriPrefixes: {},
         showDropdown: false,
         showNotation: null
       }
@@ -38,6 +39,7 @@ function startVocabSearchApp () {
       this.searchCounter = 0 // used for matching the query and the response in case there are many responses
       this.languageStrings = this.formatLanguages()
       this.renderedResultsList = []
+      this.uriPrefixes = {}
       this.showNotation = window.SKOSMOS.showNotation
     },
     methods: {
@@ -69,6 +71,7 @@ function startVocabSearchApp () {
           .then(data => {
             if (mySearchCounter === this.searchCounter) {
               this.renderedResultsList = data.results // update results (update cache if it is implemented)
+              this.uriPrefixes = data['@context']
               this.renderResults() // render after the fetch has finished
             }
           })
@@ -130,7 +133,17 @@ function startVocabSearchApp () {
       },
       renderType (typeUri) {
         const label = window.SKOSMOS.types[typeUri]
-        return (label) || typeUri
+        if (label) return label
+
+        const [prefix, local] = typeUri.split(':')
+        const iriBase = this.uriPrefixes[prefix]
+
+        if (iriBase) {
+          const iri = iriBase + local
+          return window.SKOSMOS.types[iri] || typeUri
+        }
+
+        return typeUri
       },
       /*
       * renderResults is used when the search string has been indexed in the cache

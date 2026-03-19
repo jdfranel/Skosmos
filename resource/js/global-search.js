@@ -11,6 +11,7 @@ function startGlobalSearchApp () {
         searchCounter: null,
         renderedResultsList: [],
         languageStrings: null,
+        uriPrefixes: {},
         vocabStrings: null,
         showDropdown: false,
         showNotation: null
@@ -52,6 +53,7 @@ function startGlobalSearchApp () {
       this.languages = window.SKOSMOS.languageOrder
       this.selectedLanguage = this.getSearchLang()
       this.languageStrings = this.formatLanguages()
+      this.uriPrefixes = {}
       this.vocabStrings = window.SKOSMOS.vocab_list
     },
     watch: {
@@ -94,6 +96,7 @@ function startGlobalSearchApp () {
           .then(data => {
             if (mySearchCounter === this.searchCounter) {
               this.renderedResultsList = data.results // update results (update cache if it is implemented)
+              this.uriPrefixes = data['@context']
               this.renderResults() // render after the fetch has finished
             }
           })
@@ -173,7 +176,17 @@ function startGlobalSearchApp () {
       },
       renderType (typeUri) {
         const label = window.SKOSMOS.types[typeUri]
-        return (label) || typeUri
+        if (label) return label
+
+        const [prefix, local] = typeUri.split(':')
+        const iriBase = this.uriPrefixes[prefix]
+
+        if (iriBase) {
+          const iri = iriBase + local
+          return window.SKOSMOS.types[iri] || typeUri
+        }
+
+        return typeUri
       },
       /*
       * renderResults is used when the search string has been indexed in the cache
