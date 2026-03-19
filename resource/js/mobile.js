@@ -14,5 +14,7 @@ if (sidebarCollapseBtn) {
 
     // Toggle button text
     sidebarCollapseBtn.getElementsByTagName('span')[0].textContent = sidebar.classList.contains('d-none') ? 'Selaa käsitteitä' : 'Piilota käsitteet'
+
+    sidebarCollapseBtn.setAttribute('aria-expanded', sidebarCollapseBtn.getAttribute('aria-expanded') === 'true' ? 'false' : 'true')
   })
 }
