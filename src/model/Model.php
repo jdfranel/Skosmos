@@ -204,8 +204,17 @@ class Model
     }
 
     /**
+     * Return Collator object for the current language.
+     * @return Collator Collator object from intl extension
+     */
+    public function getCollator()
+    {
+        return new Collator($this->getLocale());
+    }
+
+    /**
      * Set language for user interface internationalization (translations, collation etc.)
-     * @param string $lang language code defined in configuration, e.g. 'fi' or 'en-GB'
+     * @param string $lang language code defined in configuration, e.g. 'fi' or 'en'
      */
     public function setLang($lang)
     {
@@ -215,11 +224,21 @@ class Model
 
     /**
      * Get language for user interface internationalization (translations, collation etc.)
-     * @return string $lang language code defined in configuration, e.g. 'fi' or 'en-GB'
+     * @return string language code defined in configuration, e.g. 'fi' or 'en'
      */
     public function getLang()
     {
         return $this->translator->getlocale();
+    }
+
+    /**
+     * Get specific BCP47 locale for user interface internationalization (translations, collation etc.)
+     * @return string locale defined in configuration, e.g. 'fi-FI' or 'en-GB'
+     */
+    public function getLocale()
+    {
+        $lang = $this->getLang();
+        return $this->globalConfig->getLanguages()[$lang];
     }
 
     /**
