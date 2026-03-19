@@ -14,5 +14,3 @@ sidebarCollapseBtn.addEventListener('click', () => {
   // Toggle button text
   sidebarCollapseBtn.getElementsByTagName('span')[0].textContent = sidebar.classList.contains('d-none') ? 'Selaa käsitteitä' : 'Piilota käsitteet'
 })
-
-
