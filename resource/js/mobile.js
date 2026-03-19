@@ -13,7 +13,7 @@ if (sidebarCollapseBtn) {
     i.classList.toggle('fa-chevron-down')
 
     // Toggle button text
-    sidebarCollapseBtn.getElementsByTagName('span')[0].textContent = sidebar.classList.contains('d-none') ? 'Selaa käsitteitä' : 'Piilota käsitteet'
+    sidebarCollapseBtn.getElementsByTagName('span')[0].textContent = sidebar.classList.contains('d-none') ? 'Browse concepts' : 'Hide concepts'
 
     sidebarCollapseBtn.setAttribute('aria-expanded', sidebarCollapseBtn.getAttribute('aria-expanded') === 'true' ? 'false' : 'true')
   })

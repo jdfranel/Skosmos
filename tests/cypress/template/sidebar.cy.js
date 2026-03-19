@@ -23,17 +23,17 @@ describe('Sidebar', () => {
     cy.viewport(402, 874)
     // Check that button is visible and contains correct text
     cy.get('#sidebar-collapse-btn').should('be.visible')
-    cy.get('#sidebar-collapse-btn').invoke('text').should('contain', 'Selaa käsitteitä')
+    cy.get('#sidebar-collapse-btn').invoke('text').should('contain', 'Browse concepts')
     // Check that sidebar is not visible
     cy.get('#sidebar-col').should('not.be.visible')
     // Click button and check that it has correct text
     cy.get('#sidebar-collapse-btn').click()
-    cy.get('#sidebar-collapse-btn').invoke('text').should('contain', 'Piilota käsitteet')
+    cy.get('#sidebar-collapse-btn').invoke('text').should('contain', 'Hide concepts')
     // Check that sidebar is visible
     cy.get('#sidebar-col').should('be.visible')
     // Click button again and check that everything is toggled correctly
     cy.get('#sidebar-collapse-btn').click()
-    cy.get('#sidebar-collapse-btn').invoke('text').should('contain', 'Selaa käsitteitä')
+    cy.get('#sidebar-collapse-btn').invoke('text').should('contain', 'Browse concepts')
     cy.get('#sidebar-col').should('not.be.visible')
 
 
