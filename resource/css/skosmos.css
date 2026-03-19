@@ -281,7 +281,7 @@ header .container-fluid .row {
   color: var(--headerbar-text);
 }
 
-#search-wrapper .dropdown-menu li label:hover {
+#search-wrapper .dropdown-menu li label:hover, #search-wrapper .dropdown-menu li a:hover {
   color: var(--search-dropdown-hover-text);
 }
 
@@ -424,6 +424,10 @@ header .container-fluid .row {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+#vocab-list li:hover label {
+  color: var(--headerbar-text) !important;
 }
 
 #vocab-list {
