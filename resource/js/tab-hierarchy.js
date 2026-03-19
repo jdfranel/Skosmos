@@ -344,7 +344,7 @@ function startHierarchyApp () {
       }
     },
     template: `
-      <div v-click-tab-hierarchy="handleClickHierarchyEvent" v-resize-window="setListStyle">
+      <div v-click-tab-hierarchy="handleClickHierarchyEvent" v-click-collapse-btn="setListStyle" v-resize-window="setListStyle">
         <div id="hierarchy-list" class="sidebar-list p-0" :style="listStyle">
           <ul class="list-group" v-if="!loadingHierarchy">
             <tab-hier-wrapper
@@ -375,6 +375,19 @@ function startHierarchyApp () {
     },
     unmounted: el => {
       document.querySelector('#hierarchy').removeEventListener('click', el.clickTabEvent)
+    }
+  })
+
+  /* Custom directive used to add an event listener on clicks on the sidebar-collapse-btn element on mobile */
+  tabHierApp.directive('click-collapse-btn', {
+    beforeMount: (el, binding) => {
+      el.clickTabEvent = event => {
+        binding.value() // calling the method given as the attribute value (seListStyle)
+      }
+      document.querySelector('#sidebar-collapse-btn').addEventListener('click', el.clickTabEvent) // registering an event listener on clicks on the sidebar-collapse-btn element on mobile
+    },
+    unmounted: el => {
+      document.querySelector('#sidebar-collapse-btn').removeEventListener('click', el.clickTabEvent)
     }
   })
 

@@ -642,6 +642,31 @@ header .container-fluid .row {
 /* Sidebar vocab and concept pages
 -------------------------------------- */
 
+/* Button for collapsing sidebar on mobile */
+#sidebar-collapse-btn {
+  width: 100%;
+  margin: 1rem 0;
+  padding: 1rem;
+  font-weight: bold;
+  background-color: var(--main-content-bg);
+  border: none;
+  border-radius: 0;
+  color: var(--main-content-text);
+  font-size: 1rem;
+  position: relative;
+}
+
+#sidebar-collapse-btn i {
+  margin-right: 0.5rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .vocab-home #sidebar-col {
+    min-height: 0 !important;
+    height: 700px;
+  }
+}
+
 .vocab-home #sidebar-col, .concept #sidebar-col, .error #sidebar-col {
   background-color: var(--sidebar-bg);
   background-clip: content-box, padding-box;

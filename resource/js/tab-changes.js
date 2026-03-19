@@ -134,7 +134,7 @@ function startChangesApp () {
       }
     },
     template: `
-      <div v-click-tab-changes="handleClickChangesEvent" v-resize-window="setListStyle">
+      <div v-click-tab-changes="handleClickChangesEvent" v-click-collapse-btn="setListStyle" v-resize-window="setListStyle">
         <tab-changes
           :changed-concepts="changedConcepts"
           :selected-concept="selectedConcept"
@@ -160,6 +160,19 @@ function startChangesApp () {
     },
     unmounted: el => {
       document.querySelector('#changes').removeEventListener('click', el.clickTabEvent)
+    }
+  })
+
+  /* Custom directive used to add an event listener on clicks on the sidebar-collapse-btn element on mobile */
+  tabChangesApp.directive('click-collapse-btn', {
+    beforeMount: (el, binding) => {
+      el.clickTabEvent = event => {
+        binding.value() // calling the method given as the attribute value (seListStyle)
+      }
+      document.querySelector('#sidebar-collapse-btn').addEventListener('click', el.clickTabEvent) // registering an event listener on clicks on the sidebar-collapse-btn element on mobile
+    },
+    unmounted: el => {
+      document.querySelector('#sidebar-collapse-btn').removeEventListener('click', el.clickTabEvent)
     }
   })
 
