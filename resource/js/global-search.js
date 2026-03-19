@@ -266,14 +266,22 @@ function startGlobalSearchApp () {
         }
 
         switch (e.key) {
+          case 'ArrowDown':
+            e.preventDefault()
+            e.stopPropagation()
+            focusAt(currentIndex < 0 ? 0 : currentIndex + 1)
+            break
           case 'ArrowUp':
+            e.preventDefault()
             if (currentIndex === 0) {
               const dropdownWrapper = e.currentTarget.closest('.dropdown')
               const btn = dropdownWrapper.querySelector('.dropdown-toggle')
               const dropdownBtn = bootstrap.Dropdown.getOrCreateInstance(btn)
               dropdownBtn.hide()
               btn.focus()
+              return
             }
+            focusAt(currentIndex - 1)
             break
           case 'Enter': {
             e.preventDefault()
