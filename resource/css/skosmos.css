@@ -33,12 +33,13 @@
   --search-button-text: var(--white-color);
   --search-dropdown-bg: var(--secondary-light-color);
   --search-dropdown-selected-bg: var(--dark-color);
+  --search-dropdown-hover-bg: var(--dark-color);
+  --search-dropdown-hover-text: var(--white-color);
   --search-dropdown-selected-text: var(--white-color);
   --search-field-bg: var(--white-color);
   --search-hover-bg: var(--light-color);
   --global-search-vocab-selector-check: var(--white-color);
-  --vocab-search-language-selector-hover-bg: var(--dark-color);
-  --vocab-search-language-selector-hover-text: var(--white-color);
+
 
   --main-bg-1: var(--white-color); /*landing*/
   --main-bg-2: var(--light-color); /*vocab, concept, search, error*/
@@ -276,8 +277,12 @@ header .container-fluid .row {
   overflow-x: hidden; /* prevent horizontal scrollbar in chrome */
 }
 
-#search-wrapper .dropdown-menu label, #search-wrapper .dropdown-menu a {
+#search-wrapper .dropdown-menu label {
   color: var(--headerbar-text);
+}
+
+#search-wrapper .dropdown-menu li label:hover {
+  color: var(--search-dropdown-hover-text);
 }
 
 #search-wrapper .dropdown-toggle {
@@ -312,9 +317,8 @@ header .container-fluid .row {
 
 /* Language selector  */
 
-#language-list li:hover a, #language-list li:active a {
-  color: var(--vocab-search-language-selector-hover-text);
-  background-color: var(--vocab-search-language-selector-hover-bg);
+#language-list li:hover, #language-list li:active {
+  background-color: var(--search-dropdown-hover-bg);
 }
 
 /* Search field */
