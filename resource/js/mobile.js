@@ -1,0 +1,18 @@
+// Register event listener for clicking on sidebar collapse button that toggles visibility of sidebar
+const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn')
+
+sidebarCollapseBtn.addEventListener('click', () => {
+  // Toggle sidebar visibility
+  const sidebar = document.getElementById('sidebar-col')
+  sidebar.classList.toggle('d-none')
+
+  // Toggle fontawesome icon
+  const i = document.querySelector('#sidebar-collapse-btn i')
+  i.classList.toggle('fa-chevron-right')
+  i.classList.toggle('fa-chevron-down')
+
+  // Toggle button text
+  sidebarCollapseBtn.getElementsByTagName('span')[0].textContent = sidebar.classList.contains('d-none') ? 'Selaa käsitteitä' : 'Piilota käsitteet'
+})
+
+
