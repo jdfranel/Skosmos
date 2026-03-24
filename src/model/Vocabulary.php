@@ -550,7 +550,8 @@ class Vocabulary extends DataObject implements Modifiable
                 $specials = true;
             }
         }
-        usort($letters, 'strcoll');
+        $collator = $this->model->getCollator();
+        usort($letters, [$collator, 'compare']);
         if ($specials) {
             $letters[] = '!*';
         }

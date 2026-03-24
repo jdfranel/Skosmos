@@ -1,4 +1,10 @@
-<div class="col-md-4 position-relative" id="sidebar-col">
+<div class="d-md-none">
+  <button id="sidebar-collapse-btn" class="btn btn-primary" type="button" aria-expanded="false" aria-controls="sidebar-col">
+    <i class="fa-solid fa-chevron-right"></i><span>Browse concepts</span>
+  </button>
+</div>
+
+<div class="col-md-4 position-relative mb-md-0 mb-3 d-none d-md-inline" id="sidebar-col">
   <div id="sidebar">
   {% block sidebar %}
     <div class="sidebar-buttons">

@@ -143,7 +143,7 @@ function startAlphaApp () {
       }
     },
     template: `
-      <div v-click-tab-alphabetical="handleClickAlphabeticalEvent" v-resize-window="setListStyle">
+      <div v-click-tab-alphabetical="handleClickAlphabeticalEvent" v-click-collapse-btn="setListStyle" v-resize-window="setListStyle">
         <tab-alpha
           :index-letters="indexLetters"
           :index-concepts="indexConcepts"
@@ -172,6 +172,19 @@ function startAlphaApp () {
     },
     unmounted: el => {
       document.querySelector('#alphabetical').removeEventListener('click', el.clickTabEvent)
+    }
+  })
+
+  /* Custom directive used to add an event listener on clicks on the sidebar-collapse-btn element on mobile */
+  tabAlphaApp.directive('click-collapse-btn', {
+    beforeMount: (el, binding) => {
+      el.clickTabEvent = event => {
+        binding.value() // calling the method given as the attribute value (seListStyle)
+      }
+      document.querySelector('#sidebar-collapse-btn').addEventListener('click', el.clickTabEvent) // registering an event listener on clicks on the sidebar-collapse-btn element on mobile
+    },
+    unmounted: el => {
+      document.querySelector('#sidebar-collapse-btn').removeEventListener('click', el.clickTabEvent)
     }
   })
 
