@@ -750,22 +750,15 @@ class Concept extends VocabularyDataObject implements Modifiable
         $resource = $this->resource->get($name);
         if ($resource instanceof \EasyRdf\Literal\Date) {
             $resourceDate = $resource->getValue();
-            $localeLabel = $this->model->getLocale();
-            $locale = $this->model->getConfig()->getLanguages()[$localeLabel];
-            // Collation suffix in locale is not supported by IntlDateFormatter
-            // so this is removed to ensure proper local formatting
-            $locale = preg_replace('/\.[\w\d]+$/', '', $locale);
+
             $dateFormatterTimeFormat = IntlDateFormatter::NONE;
             if ($resource instanceof \EasyRdf\Literal\DateTime) {
                 $dateFormatterTimeFormat = IntlDateFormatter::SHORT;
             }
-            $dateFormatter = new IntlDateFormatter(
-                $locale,
+            $dateFormatter = $this->model->getDateFormatter(
                 IntlDateFormatter::SHORT,
-                $dateFormatterTimeFormat,
-                $this->model->getConfig()->getTimezone(),
+                $dateFormatterTimeFormat
             );
-            // Use interface language for date formatting, not content language
             return $dateFormatter->format($resourceDate);
         }
         return null;

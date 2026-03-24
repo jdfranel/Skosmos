@@ -264,7 +264,7 @@ class VocabularyTest extends \PHPUnit\Framework\TestCase
     public function testGetInfoDateInInterfaceLanguage()
     {
         // Test with English interface
-        $this->model->setLocale('en');
+        $this->model->setLang('en');
         $vocab = $this->model->getVocabulary('test-hierarchy');
         $info = $vocab->getInfo();
         
@@ -278,7 +278,7 @@ class VocabularyTest extends \PHPUnit\Framework\TestCase
         $this->assertStringContainsString('October', $modifiedDate);
         
         // Test with French interface
-        $this->model->setLocale('fr');
+        $this->model->setLang('fr');
         $vocab_fr = $this->model->getVocabulary('test-hierarchy');
         $info_fr = $vocab_fr->getInfo();
         $modifiedDate_fr = $info_fr['dc:modified'][0];
@@ -294,7 +294,7 @@ class VocabularyTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetInfoDateTimezoneConversion()
     {
-        $this->model->setLocale('en');
+        $this->model->setLang('en');
         $vocab = $this->model->getVocabulary('test-hierarchy');
         $info = $vocab->getInfo();
         

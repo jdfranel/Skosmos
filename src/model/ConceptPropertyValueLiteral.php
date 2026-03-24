@@ -68,20 +68,13 @@ class ConceptPropertyValueLiteral extends VocabularyDataObject
             try {
                 $val = $this->literal->getValue();
 
-                $localeLabel = $this->model->getLocale();
-                $locale = $this->model->getConfig()->getLanguages()[$localeLabel];
-                // Collation suffix in locale is not supported by IntlDateFormatter
-                // so this is removed to ensure proper local formatting
-                $locale = preg_replace('/\.[\w\d]+$/', '', $locale);
                 $dateFormatterTimeFormat = IntlDateFormatter::NONE;
                 if ($this->literal instanceof \EasyRdf\Literal\DateTime) {
                     $dateFormatterTimeFormat = IntlDateFormatter::SHORT;
                 }
-                $dateFormatter = new IntlDateFormatter(
-                    $locale,
+                $dateFormatter = $this->model->getDateFormatter(
                     IntlDateFormatter::SHORT,
-                    $dateFormatterTimeFormat,
-                    $this->model->getConfig()->getTimezone(),
+                    $dateFormatterTimeFormat
                 );
                 return $dateFormatter->format($val);
             } catch (Exception $e) {
