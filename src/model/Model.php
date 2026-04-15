@@ -214,6 +214,24 @@ class Model
     }
 
     /**
+     * Return php IntlDateFormatter for the current language and timezone.
+     * @param string $dateType date format type as defined in [IntlDateFormatter class](https://www.php.net/manual/en/class.intldateformatter.php).
+     *      default is [IntlDateFormatter::FULL](https://www.php.net/manual/en/class.intldateformatter.php#intldateformatter.constants.full)
+     * @param string $timeType time format type as defined in [IntlDateFormatter class](https://www.php.net/manual/en/class.intldateformatter.php).
+     *      default is [IntlDateFormatter::FULL](https://www.php.net/manual/en/class.intldateformatter.php#intldateformatter.constants.full)
+     * @return IntlDateFormatter Date formatter
+     */
+    public function getDateFormatter(int $dateType = IntlDateFormatter::FULL, int $timeType = IntlDateFormatter::FULL)
+    {
+        return new IntlDateFormatter(
+            $this->getLocale(),
+            $dateType,
+            $timeType,
+            $this->getConfig()->getTimezone(),
+        );
+    }
+
+    /**
      * Set language for user interface internationalization (translations, collation etc.)
      * @param string $lang language code defined in configuration, e.g. 'fi' or 'en'
      */
