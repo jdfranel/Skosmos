@@ -745,7 +745,7 @@ class Concept extends VocabularyDataObject implements Modifiable
      * @param string $name Resource property
      * @return string|null The resource date formated as string or null
      */
-    private function getFormattedDateResource($name)
+    public function getFormattedDateResource($name)
     {
         $resource = $this->resource->get($name);
         if ($resource instanceof \EasyRdf\Literal\Date) {

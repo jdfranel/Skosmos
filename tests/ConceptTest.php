@@ -317,7 +317,6 @@ class ConceptTest extends PHPUnit\Framework\TestCase
 
     /**
      * @covers Concept::getDate
-     * @covers Concept::getFormattedDateResource
      */
     public function testGetDateWithCreatedAndModified()
     {
@@ -330,7 +329,6 @@ class ConceptTest extends PHPUnit\Framework\TestCase
 
     /**
      * @covers Concept::getDate
-     * @covers Concept::getFormattedDateResource
      * @covers ConceptProperty::getValues
      * @covers ConceptPropertyValueLiteral::getLabel
      */
@@ -369,8 +367,73 @@ class ConceptTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Concept::getDate
      * @covers Concept::getFormattedDateResource
+     */
+    public function testGetFormattedDateResourceCreatedWithDateAndTime()
+    {
+        $vocab = $this->model->getVocabulary('dates');
+        $concept = $vocab->getConceptInfo("http://www.skosmos.skos/date/d1", "en");
+        $formatted = $concept->getFormattedDateResource('dc:created');
+        $this->assertEquals('03/01/2000, 09:46', $formatted);
+    }
+
+    /**
+     * @covers Concept::getFormattedDateResource
+     */
+    public function testGetFormattedDateResourceModifiedWithDateAndTime()
+    {
+        $vocab = $this->model->getVocabulary('dates');
+        $concept = $vocab->getConceptInfo("http://www.skosmos.skos/date/d1", "en");
+        $formatted = $concept->getFormattedDateResource('dc:modified');
+        $this->assertEquals('06/06/2012, 09:46', $formatted);
+    }
+
+    /**
+     * @covers Concept::getFormattedDateResource
+     */
+    public function testGetFormattedDateResourceOwnDateWithDateAndTime()
+    {
+        $vocab = $this->model->getVocabulary('dates');
+        $concept = $vocab->getConceptInfo("http://www.skosmos.skos/date/d1", "en");
+        $formatted = $concept->getFormattedDateResource('<http://www.skosmos.skos/date/ownDate>');
+        $this->assertEquals('08/08/2015, 09:46', $formatted);
+    }
+
+    /**
+     * @covers Concept::getFormattedDateResource
+     */
+    public function testGetFormattedDateResourceMissingPropertyReturnsNull()
+    {
+        $vocab = $this->model->getVocabulary('dates');
+        $concept = $vocab->getConceptInfo("http://www.skosmos.skos/date/d2", "en");
+        $formatted = $concept->getFormattedDateResource('dc:created');
+        $this->assertNull($formatted);
+    }
+
+    /**
+     * @covers Concept::getFormattedDateResource
+     */
+    public function testGetFormattedDateResourceDateOnlyCreated()
+    {
+        $vocab = $this->model->getVocabulary('dates');
+        $concept = $vocab->getConceptInfo("http://www.skosmos.skos/date/d3", "en");
+        $formatted = $concept->getFormattedDateResource('dc:created');
+        $this->assertEquals('15/05/2020', $formatted);
+    }
+
+    /**
+     * @covers Concept::getFormattedDateResource
+     */
+    public function testGetFormattedDateResourceDateOnlyModified()
+    {
+        $vocab = $this->model->getVocabulary('dates');
+        $concept = $vocab->getConceptInfo("http://www.skosmos.skos/date/d3", "en");
+        $formatted = $concept->getFormattedDateResource('dc:modified');
+        $this->assertEquals('30/11/2022', $formatted);
+    }
+
+    /**
+     * @covers Concept::getDate
      * Test that dates without time component (midnight 00:00:00) don't display time
      */
     public function testGetDateWithoutTimeComponent()
@@ -387,7 +450,6 @@ class ConceptTest extends PHPUnit\Framework\TestCase
 
     /**
      * @covers 
-     * @covers Concept::getFormattedDateResource
      * Test that dates with time component (non-midnight) display time
      */
     public function testGetDateWithTimeComponent()
@@ -404,7 +466,6 @@ class ConceptTest extends PHPUnit\Framework\TestCase
 
     /**
      * @covers 
-     * @covers Concept::getFormattedDateResource
      * Test that dates are converted to UTC timezone in tests
      */
     public function testGetDateTimezoneConversion()
@@ -420,7 +481,6 @@ class ConceptTest extends PHPUnit\Framework\TestCase
 
     /**
      * @covers Concept::getDate
-     * @covers Concept::getFormattedDateResource
      * Test that dates are displayed in the correct interface language
      */
     public function testGetDateInterfaceLanguage()
