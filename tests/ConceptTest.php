@@ -449,7 +449,7 @@ class ConceptTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Concept::getDate 
+     * @covers Concept::getDate
      * Test that dates with time component (non-midnight) display time
      */
     public function testGetDateWithTimeComponent()
