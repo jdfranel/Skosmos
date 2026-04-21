@@ -2,7 +2,7 @@
 
 // Register event listener for clicking on sidebar collapse button that toggles visibility of sidebar
 
-function initializeSidebarCollapse() {
+function initializeSidebarCollapse () {
   const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn')
 
   if (sidebarCollapseBtn) {
