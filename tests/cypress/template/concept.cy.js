@@ -158,10 +158,15 @@ describe('Concept page', () => {
   it('overrides vocabulary property labels', () => {
     // Go to "Carp" concept page in vocab with property label overrides
     cy.visit('/conceptPropertyLabels/en/')
-    // Check that there is a .row .property-label with the overridden property label
-    cy.get('.row .property-label').eq(0).invoke('text').should('include', 'Vocabulary Property')
-    // Check that there is a .row .property-label with the overridden property label description as title
-    cy.get('.row .property-label').eq(0).should('have.attr', 'title').and('contain', 'Vocabulary Property description')
+    // Loop through all .row.property and if the element has a .property-value ul li with text "Overridden property value", check the label and title of the .property-label for this row
+    cy.get('.row.property').each($row => {
+      cy.wrap($row).find('.property-value ul li').each($li => {
+        if ($li.text().includes('Overridden property value')) {
+          cy.wrap($row).find('.property-label h2').eq(0).invoke('text').should('include', 'Vocabulary Property')
+          cy.wrap($row).find('.property-label h2').eq(0).should('have.attr', 'data-title').and('contain', 'Vocabulary Property description')
+        }
+      })
+    })
   })
   it('contains SKOS XL information for concept prefLabel', () => {
     cy.visit('/yso/en/page/p4625?clang=se') // go to "bronsaáigi" concept page ('Bronze Age' in Northern Sami)
