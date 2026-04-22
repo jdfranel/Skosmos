@@ -142,7 +142,7 @@ describe('Concept page', () => {
     // Check that "my property" property label is capitalized correctly
     cy.get('.prop-my_property .property-label h2').invoke('text').should('include', 'My property')
   })
-  it('overrides property labels', () => {
+  it('overrides concept property labels', () => {
     // Go to "Carp" concept page in vocab with property label overrides
     cy.visit('/conceptPropertyLabels/en/page/ta112')
     // Check that prefLabel property label is overridden correctly
@@ -154,6 +154,14 @@ describe('Concept page', () => {
     cy.get('.prop-mapping h2', {'timeout': 20000}).eq(0).invoke('text').should('contain', 'Exactly matching classes')
     // Check that mapping property title is overridden correctly
     cy.get('.prop-mapping .property-label').eq(0).should('have.attr', 'title').and('contain', 'Exactly matching classes in another vocabulary.')
+  })
+  it('overrides vocabulary property labels', () => {
+    // Go to "Carp" concept page in vocab with property label overrides
+    cy.visit('/conceptPropertyLabels/en/')
+    // Check that there is a .row .property-label with the overridden property label
+    cy.get('.row .property-label').eq(0).invoke('text').should('include', 'Vocabulary Property')
+    // Check that there is a .row .property-label with the overridden property label description as title
+    cy.get('.row .property-label').eq(0).should('have.attr', 'title').and('contain', 'Vocabulary Property description')
   })
   it('contains SKOS XL information for concept prefLabel', () => {
     cy.visit('/yso/en/page/p4625?clang=se') // go to "bronsaáigi" concept page ('Bronze Age' in Northern Sami)
